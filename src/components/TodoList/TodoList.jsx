@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import Todo from "../Todo/Todo";
+import TodoContext from "../context/TodoContext";
 
-const TodoList = ({ list, setList }) => {
+const TodoList = () => {
+  const { list, setList } = useContext(TodoContext);
   return (
     <div>
       {list.length > 0 &&
@@ -14,6 +17,18 @@ const TodoList = ({ list, setList }) => {
               const updateList = list.map((t) => {
                 if (t.id === todo.id) {
                   todo.finished = isFinished;
+                }
+                return t;
+              });
+              return setList(updateList);
+            }}
+            deleteItem={() => {
+              setList([...list].filter(({ id }) => id !== todo.id));
+            }}
+            onEdit={(todoText) => {
+              const updateList = list.map((t) => {
+                if (t.id === todo.id) {
+                  todo.todoData = todoText;
                 }
                 return t;
               });
